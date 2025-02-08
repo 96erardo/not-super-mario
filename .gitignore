@@ -1,0 +1,5 @@
+*.out
+config.txt
+*.dSYM/*
+main
+.DS_Store
