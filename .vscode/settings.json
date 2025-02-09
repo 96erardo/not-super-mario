@@ -1,0 +1,10 @@
+{
+  "files.associations": {
+    "vector": "cpp",
+    "filesystem": "cpp",
+    "__split_buffer": "cpp",
+    "string": "cpp",
+    "deque": "cpp",
+    "iosfwd": "cpp"
+  }
+}
