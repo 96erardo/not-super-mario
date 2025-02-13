@@ -18,14 +18,12 @@ class Scene {
     bool          m_paused;
     bool          m_hasEnded;
 
-    virtual void init () = 0;
+    virtual void init (const std::string& path) = 0;
     virtual void sRender () = 0;
-    // virtual void sDoAction () const = 0;
 
   public: 
     virtual void update () = 0;
 
-    void simulate (int s);
     const ActionMap& getActionMap () const;
     virtual void doAction (const Action& action) = 0;
     void registerAction (sf::Keyboard::Key code, const std::string& name);

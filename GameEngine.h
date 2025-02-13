@@ -3,24 +3,31 @@
 #include <SFML/Graphics.hpp>
 #include <map>
 #include "Scene.h"
+#include "Assets.h"
 
 class GameEngine {
   sf::RenderWindow                               m_window;
   std::map<std::string, std::shared_ptr<Scene>>  m_scenes;
   std::string                                    m_currentScene;
-  bool                                           m_running;
+  Assets                                         m_assets;
+  bool                                           m_running = true;
 
   void init ();
   void update ();  
-  void sUserInput();
+  void loadAssets();
+  void sUserInput(); 
 
   public:
     GameEngine (const std::string& config);
 
-    void run ();
+    void run();
+    void quit();
+    bool isRunning();
 
     sf::RenderWindow&      window ();
     std::shared_ptr<Scene> currentScene ();
+    Assets&                assets ();
+
     void changeScene (const std::string& sceneName, std::shared_ptr<Scene> scene, bool endCurrentScene = false);
 };
 

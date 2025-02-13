@@ -19,6 +19,7 @@ class Entity {
     std::shared_ptr<CTransform> cTransform;
     std::shared_ptr<CText> cText;
     std::shared_ptr<CMenuItem> cMenuItem;
+    std::shared_ptr<CAnimation> cAnimation;
 
     size_t id () const;
     std::string tag () const;

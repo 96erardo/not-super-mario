@@ -3,27 +3,27 @@
 #include "Scene.h"
 #include "Action.h"
 #include "Scene_Menu.h"
+#include "Scene_Play.h"
 #include "Components.h"
 #include "GameEngine.h"
 #include "EntityManager.h"
 
 Scene_Menu::Scene_Menu (GameEngine* g) {
   m_game = g;
-  init();
+  init("");
 }
 
-void Scene_Menu::init() {
+void Scene_Menu::init(const std::string& path) {
   registerAction(sf::Keyboard::Key::W, "UP");
   registerAction(sf::Keyboard::Key::S, "DOWN");
   registerAction(sf::Keyboard::Key::Enter, "SELECT");
+  registerAction(sf::Keyboard::Key::Escape, "QUIT");
 
-  if (!m_font.openFromFile("assets/font/absender1.ttf")) {
-    std::cerr << "Error on loading font\n";
-  }
+  auto font = m_game->assets().getFont("Absender");
 
-  addOption(0, true, "Level I", "assets/levels/Level_1.txt", m_font);
-  addOption(1, false, "Level II", "assets/levels/Level_2.txt", m_font);
-  addOption(2, false, "Exit", "EXIT", m_font);
+  addOption(0, true, "Level I", "assets/levels/Level_1.txt", *font);
+  addOption(1, false, "Level II", "assets/levels/Level_2.txt", *font);
+  addOption(2, false, "Exit", "EXIT", *font);
 }
 
 void Scene_Menu::addOption(
@@ -54,15 +54,13 @@ void Scene_Menu::addOption(
   entity->cMenuItem = std::make_shared<CMenuItem>(
     index,
     selected,
-    text
+    value
   );
 
   m_numOptions++;
 }
 
 void Scene_Menu::doAction (const Action& action) {
-  std::cout << action.name() << " " << action.type() << "\n";
-
   if (action.type() == "END") {
     if (action.name() == "UP") {
       if (m_selected > 0) {
@@ -81,9 +79,22 @@ void Scene_Menu::doAction (const Action& action) {
 
         m_entities.getEntities().at(m_selected)->cText->text.setFillColor(sf::Color::White);
       }
-    }
+    } else if (action.name() == "SELECT") {
+      auto selected = m_entities.getEntities().at(m_selected);
 
-    std::cout << m_selected << "\n";
+      if (selected->cMenuItem->value == "EXIT") {
+        m_game->quit();
+      
+      } else {
+        m_game->changeScene(
+          "PLAY",
+          std::make_shared<Scene_Play>(m_game, selected->cMenuItem->value)
+        );
+      }
+    
+    } else if (action.name() == "QUIT") {
+      m_game->quit();
+    }
   }
 }
 

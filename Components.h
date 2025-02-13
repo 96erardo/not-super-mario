@@ -1,13 +1,20 @@
 #ifndef COMPONENTS_H
 #define COMPONENTS_H
+#include <SFML/Graphics.hpp>
+#include "Animation.h"
 #include "Vec2.h"
-#include "SFML/Graphics.hpp"
 
 class CTransform {
   public:
     Vec2 pos;
     Vec2 vel;
     int  angle;
+
+    CTransform (Vec2 p): 
+      pos(p), 
+      vel({0,0}),
+      angle(0) 
+    {}
 
     CTransform (Vec2 p, Vec2 v, int a):
       pos(p),
@@ -34,6 +41,13 @@ class CMenuItem {
       selected(s),
       value(v)
     {}
+};
+
+class CAnimation {
+  public:
+    Animation animation;
+
+    CAnimation (Animation& a): animation(a) {}
 };
 
 #endif

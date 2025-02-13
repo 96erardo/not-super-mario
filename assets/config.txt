@@ -1,0 +1,9 @@
+Font       Absender   assets/font/absender1.ttf
+Texture    TexGround  assets/image/blocks/floor_block.png
+Texture    TexBrick   assets/image/blocks/brick_block.png
+Texture    TexCoin    assets/image/blocks/coin_block.png
+Texture    TexStand   assets/image/mario/mario.png
+Texture    TexRunning assets/image/mario/mario.png
+Animation  Stand      TexStand   1    0
+Animation  Run        TexRunning 3    10
+Animation  Ground     TexGround  1    0
