@@ -1,4 +1,5 @@
 Background 101 153 248
+Player 5 1 64 64 5 -20 20 0.75
 Tile Ground 0  0
 Tile Ground 1  0
 Tile Ground 2  0

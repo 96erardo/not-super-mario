@@ -1,7 +1,9 @@
 #include <iostream>
 #include "Entity.h"
 
-Entity::Entity (size_t id, const std::string& tag): m_id(id), m_tag(tag) {};
+Entity::Entity (size_t id, const std::string& tag): m_id(id), m_tag(tag) {
+  m_components = std::make_tuple(CTransform(), CInput(), CAnimation(), CState());
+};
   
 size_t Entity::id () const {
   return m_id;

@@ -4,23 +4,9 @@
 #include "Animation.h"
 #include "Vec2.h"
 
-class CTransform {
+class Component {
   public:
-    Vec2 pos;
-    Vec2 vel;
-    int  angle;
-
-    CTransform (Vec2 p): 
-      pos(p), 
-      vel({0,0}),
-      angle(0) 
-    {}
-
-    CTransform (Vec2 p, Vec2 v, int a):
-      pos(p),
-      vel(v),
-      angle(a)
-    {}
+    bool has = false;
 };
 
 class CText {
@@ -43,11 +29,45 @@ class CMenuItem {
     {}
 };
 
-class CAnimation {
+class CTransform: public Component {
+  public:
+    Vec2  pos   = { 0,0 };
+    Vec2  vel   = { 0,0 };
+    Vec2  scale = { 1,1 };
+    int   angle = 0;
+
+    CTransform () {};
+    CTransform (Vec2 p, Vec2 v, int a):
+      pos(p),
+      vel(v),
+      angle(a)
+    {}
+};
+
+class CInput: public Component {
+  public:
+    bool left = false;
+    bool right = false;
+    bool jump = false;
+    bool shoot = false;
+
+    CInput () {};
+};
+
+class CAnimation: public Component {
   public:
     Animation animation;
 
-    CAnimation (Animation& a): animation(a) {}
+    CAnimation (): animation(Animation(sf::Texture())) {};
+    CAnimation (Animation& a): animation(a) {};
+};
+
+class CState: public Component {
+  public:
+    std::string state = "none";
+
+    CState () {}
+    CState (const std::string& s): state(s) {};
 };
 
 #endif
