@@ -4,6 +4,7 @@
 #include "Vec2.h"
 #include "Scene.h"
 #include "Entity.h"
+#include "Physics.h"
 
 struct PlayerConfig {
   float X, Y, CX, CY, SPEED, MAXSPEED, JUMP, GRAVITY;
@@ -14,9 +15,11 @@ class Scene_Play: public Scene {
   sf::Color               m_background;
   std::shared_ptr<Entity> m_player;
   PlayerConfig            m_playerConfig;
+  Physics                 m_physics;
 
   void init (const std::string& path) override;
   void sMovement ();
+  void sCollision ();
   void sAnimation ();
   void sRender () override;
   Vec2 gridToMidPixel (float gridX, float gridY, std::shared_ptr<Entity> entity);

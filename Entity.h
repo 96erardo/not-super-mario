@@ -6,6 +6,8 @@
 
 typedef std::tuple<
   CTransform,
+  CBoundingBox,
+  CGravity,
   CInput,
   CAnimation,
   CState

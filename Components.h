@@ -31,17 +31,38 @@ class CMenuItem {
 
 class CTransform: public Component {
   public:
-    Vec2  pos   = { 0,0 };
-    Vec2  vel   = { 0,0 };
-    Vec2  scale = { 1,1 };
-    int   angle = 0;
+    Vec2  pos     = { 0,0 };
+    Vec2  prevPos = { 0,0 };
+    Vec2  vel     = { 0,0 };
+    Vec2  scale   = { 1,1 };
+    int   angle   = 0;
 
     CTransform () {};
-    CTransform (Vec2 p, Vec2 v, int a):
+    CTransform (const Vec2& p, const Vec2& v, int a):
       pos(p),
+      prevPos(p.x, p.y),
       vel(v),
       angle(a)
     {}
+};
+
+class CGravity: public Component {
+  public: 
+    float value = 0;
+
+    CGravity () {};
+    CGravity (float v): value(v) {};
+};
+
+class CBoundingBox: public Component {
+  public:
+    Vec2 size     = { 0,0 };
+    Vec2 halfSize = { 0,0 };
+
+    CBoundingBox () {};
+    CBoundingBox (const Vec2& s):
+      size(s),
+      halfSize(s.x / 2, s.y / 2) {};
 };
 
 class CInput: public Component {
@@ -50,6 +71,7 @@ class CInput: public Component {
     bool right = false;
     bool jump = false;
     bool shoot = false;
+    bool canJump = false;
 
     CInput () {};
 };

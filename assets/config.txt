@@ -4,6 +4,10 @@ Texture    TexBrick   assets/image/blocks/brick_block.png
 Texture    TexCoin    assets/image/blocks/coin_block.png
 Texture    TexStand   assets/image/mario/mario.png
 Texture    TexRunning assets/image/mario/mario_running.png
+Texture    TexJumping assets/image/mario/mario_jumping.png
 Animation  Stand      TexStand   1    0
 Animation  Run        TexRunning 3    5
+Animation  Jump       TexJumping 1    0
 Animation  Ground     TexGround  1    0
+Animation  Brick      TexBrick   1    0
+Animation  Coin       TexCoin    3    10
