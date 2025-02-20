@@ -16,12 +16,21 @@ class Scene_Play: public Scene {
   std::shared_ptr<Entity> m_player;
   PlayerConfig            m_playerConfig;
   Physics                 m_physics;
+  float                   m_worldWidth = 0;
+  float                   m_offset     = 0;
 
   void init (const std::string& path) override;
+  void spawnPlayer ();
+  void spawnBullet ();
+  void spawnExplosion (std::shared_ptr<Entity> entity);
+  
   void sMovement ();
   void sCollision ();
+  void sLifespan ();
+  void sState ();
   void sAnimation ();
   void sRender () override;
+  
   Vec2 gridToMidPixel (float gridX, float gridY, std::shared_ptr<Entity> entity);
 
   public:

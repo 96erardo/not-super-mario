@@ -2,12 +2,24 @@ Font       Absender   assets/font/absender1.ttf
 Texture    TexGround  assets/image/blocks/floor_block.png
 Texture    TexBrick   assets/image/blocks/brick_block.png
 Texture    TexCoin    assets/image/blocks/coin_block.png
+Texture    TexBlock   assets/image/blocks/platform_block.png
+Texture    TexBullet  assets/image/misc/bullet.png
 Texture    TexStand   assets/image/mario/mario.png
 Texture    TexRunning assets/image/mario/mario_running.png
 Texture    TexJumping assets/image/mario/mario_jumping.png
-Animation  Stand      TexStand   1    0
-Animation  Run        TexRunning 3    5
-Animation  Jump       TexJumping 1    0
-Animation  Ground     TexGround  1    0
-Animation  Brick      TexBrick   1    0
-Animation  Coin       TexCoin    3    10
+Texture    TexTree_L  assets/image/misc/tree_l.png
+Texture    TexBush_L  assets/image/misc/bush_l.png
+Texture    TexCloud_S assets/image/misc/cloud_s.png
+Texture    TexExpl    assets/image/misc/explosion_s.png
+Animation  Stand      TexStand    1    0
+Animation  Run        TexRunning  3    5
+Animation  Jump       TexJumping  1    0
+Animation  Ground     TexGround   1    0
+Animation  Brick      TexBrick    1    0
+Animation  Block      TexBlock    1    0
+Animation  Coin       TexCoin     3    15
+Animation  Tree_L     TexTree_L   1    0
+Animation  Bush_L     TexBush_L   1    0
+Animation  Cloud_S    TexCloud_S  1    0
+Animation  Bullet     TexBullet   4    10
+Animation  Explosion  TexExpl     7    10

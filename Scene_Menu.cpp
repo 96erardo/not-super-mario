@@ -99,7 +99,11 @@ void Scene_Menu::doAction (const Action& action) {
 }
 
 void Scene_Menu::sRender () {
+  auto size = m_game->window().getSize();
   m_game->window().clear(sf::Color::Magenta);
+  sf::View view(sf::Vector2f(size.x / 2, size.y / 2), sf::Vector2f(size.x, size.y));
+
+  m_game->window().setView(view);
 
   for (auto entity : m_entities.getEntities()) {
     m_game->window().draw(entity->cText->text);

@@ -47,3 +47,11 @@ const Vec2& Animation::getSize() const {
 sf::Sprite& Animation::getSprite() {
   return m_sprite;
 }
+
+void Animation::setEndable () {
+  m_endable = true;
+}
+
+bool Animation::hasEnded () const {
+  return m_endable && (m_currentFrame + 1 == m_frameCount);
+}

@@ -12,6 +12,7 @@ class Animation {
   size_t      m_currentFrame = 0; // The current frame of animation being played
   size_t      m_duration     = 0; // The frame duration to nex animation
   Vec2        m_size         = {0,0};
+  bool        m_endable      = false;
 
   public:
     Animation(const sf::Texture& t);
@@ -20,6 +21,7 @@ class Animation {
 
     void update ();
     bool hasEnded () const;
+    void setEndable ();
     const std::string& getName() const;
     const Vec2& getSize() const;
     sf::Sprite& getSprite();

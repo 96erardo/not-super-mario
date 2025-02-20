@@ -54,6 +54,14 @@ class CGravity: public Component {
     CGravity (float v): value(v) {};
 };
 
+class CLifespan: public Component {
+  public:
+    size_t value = 0;
+
+    CLifespan () {};
+    CLifespan (size_t v): value(v) {};
+};
+
 class CBoundingBox: public Component {
   public:
     Vec2 size     = { 0,0 };
@@ -70,8 +78,8 @@ class CInput: public Component {
     bool left = false;
     bool right = false;
     bool jump = false;
-    bool shoot = false;
     bool canJump = false;
+    bool canShoot = false;
 
     CInput () {};
 };
