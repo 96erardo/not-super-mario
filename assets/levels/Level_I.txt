@@ -70,4 +70,4 @@ Tile Block    28 2
 Tile Block    27 3
 Tile Block    28 3
 Tile Block    28 4
-Player 1 2 64 64 5 -5 18 0.75 Bullet
+Player 1 2 64 64 5 -5 18 0.75 Stand

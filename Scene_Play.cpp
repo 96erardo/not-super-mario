@@ -100,7 +100,7 @@ void Scene_Play::spawnPlayer () {
 
 void Scene_Play::spawnBullet () {
   auto entity = m_entities.addEntity("Bullet");
-  auto animation = m_game->assets().getAnimation("Bullet");
+  auto animation = m_game->assets().getAnimation(m_playerConfig.WEAPON);
   Vec2 size = m_player->getComponent<CAnimation>().animation.getSize();
   float dir = m_player->getComponent<CTransform>().scale.x;
 
