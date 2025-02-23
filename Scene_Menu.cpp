@@ -21,41 +21,29 @@ void Scene_Menu::init(const std::string& path) {
 
   auto font = m_game->assets().getFont("Absender");
 
-  addOption(0, true, "Level I", "assets/levels/Level_1.txt", *font);
-  addOption(1, false, "Level II", "assets/levels/Level_2.txt", *font);
-  addOption(2, false, "Exit", "EXIT", *font);
+  addOption(true, "Level_I", "assets/levels/Level_1.txt", *font);
+  addOption(false, "Exit", "EXIT", *font);
 }
 
 void Scene_Menu::addOption(
-  int index,
   bool selected,
   const std::string& text,
   const std::string& value,
   const sf::Font& font
 ) {
-  auto entity = m_entities.addEntity("Option");
+  Vec2 pos = Vec2(50, m_numOptions * 100);
 
-  entity->cTransform = std::make_shared<CTransform>(
-    Vec2(50, index * 100),
-    Vec2(0, 0),
-    0
-  );
-
-  entity->cText = std::make_shared<CText>(sf::Text(font));
-  entity->cText->text.setString(text);
-  entity->cText->text.setCharacterSize(100);
-  entity->cText->text.setFillColor(selected ? sf::Color::White : sf::Color::Black);
+  sf::Text option = sf::Text(font);
+  option.setString(text);
+  option.setCharacterSize(100);
+  option.setFillColor(selected ? sf::Color::White : sf::Color::Black);
   
-  entity->cText->text.setPosition({ 
-    entity->cTransform->pos.x, 
-    entity->cTransform->pos.y,
+  option.setPosition({ 
+    pos.x, 
+    pos.y,
   });
 
-  entity->cMenuItem = std::make_shared<CMenuItem>(
-    index,
-    selected,
-    value
-  );
+  m_options.insert_or_assign(m_numOptions, option);
 
   m_numOptions++;
 }
@@ -64,31 +52,31 @@ void Scene_Menu::doAction (const Action& action) {
   if (action.type() == "END") {
     if (action.name() == "UP") {
       if (m_selected > 0) {
-        m_entities.getEntities().at(m_selected)->cText->text.setFillColor(sf::Color::Black);
+        m_options.at(m_selected).setFillColor(sf::Color::Black);
         
         m_selected -= 1;
 
-        m_entities.getEntities().at(m_selected)->cText->text.setFillColor(sf::Color::White);
+        m_options.at(m_selected).setFillColor(sf::Color::White);
       }
     
     } else if (action.name() == "DOWN") {
       if ((m_selected + 1) < m_numOptions) {
-        m_entities.getEntities().at(m_selected)->cText->text.setFillColor(sf::Color::Black);
+        m_options.at(m_selected).setFillColor(sf::Color::Black);
         
         m_selected += 1;
 
-        m_entities.getEntities().at(m_selected)->cText->text.setFillColor(sf::Color::White);
+        m_options.at(m_selected).setFillColor(sf::Color::White);
       }
     } else if (action.name() == "SELECT") {
-      auto selected = m_entities.getEntities().at(m_selected);
+      auto selected = m_options.at(m_selected);
 
-      if (selected->cMenuItem->value == "EXIT") {
+      if (selected.getString() == "Exit") {
         m_game->quit();
       
       } else {
         m_game->changeScene(
           "PLAY",
-          std::make_shared<Scene_Play>(m_game, selected->cMenuItem->value)
+          std::make_shared<Scene_Play>(m_game, "assets/levels/" + selected.getString() + ".txt")
         );
       }
     
@@ -105,8 +93,8 @@ void Scene_Menu::sRender () {
 
   m_game->window().setView(view);
 
-  for (auto entity : m_entities.getEntities()) {
-    m_game->window().draw(entity->cText->text);
+  for (auto it = m_options.begin(); it != m_options.end(); it++) {
+    m_game->window().draw(it->second);
   }
 
   m_game->window().display();

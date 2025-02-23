@@ -23,7 +23,9 @@ class Scene_Play: public Scene {
   void spawnPlayer ();
   void spawnBullet ();
   void spawnExplosion (std::shared_ptr<Entity> entity);
+  void spawnHitCoin (std::shared_ptr<Entity> entity);
   
+  void sGravity ();
   void sMovement ();
   void sCollision ();
   void sLifespan ();

@@ -1,16 +1,17 @@
 #ifndef SCENE_MENU_H
 #define SCENE_MENU_H
 #include <SFML/Graphics/Font.hpp>
+#include <vector>
 #include "Scene.h"
 
 class Scene_Menu: public Scene {
-  int      m_selected = 0;
-  size_t   m_numOptions = 0;
+  int                     m_selected = 0;
+  size_t                  m_numOptions = 0;
+  std::map<int, sf::Text> m_options;
 
   void init (const std::string& path) override;
   void sRender () override;
   void addOption (
-    int index, 
     bool selected,
     const std::string& text, 
     const std::string& value, 

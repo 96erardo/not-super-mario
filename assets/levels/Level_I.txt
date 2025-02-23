@@ -1,4 +1,6 @@
 Background 101 153 248
+Tile Pipe     36 1
+Tile Pipe     32 -1
 Tile Ground   0  0
 Tile Ground   1  0
 Tile Ground   2  0

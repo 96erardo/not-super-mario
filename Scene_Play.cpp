@@ -130,6 +130,23 @@ void Scene_Play::spawnExplosion (std::shared_ptr<Entity> entity) {
   entity->addComponent<CAnimation>(*animation);
 }
 
+void Scene_Play::spawnHitCoin (std::shared_ptr<Entity> entity) {
+  auto coin = m_entities.addEntity("CoinTemp");
+  auto animation = m_game->assets().getAnimation("CoinTemp");
+  auto position = entity->getComponent<CTransform>().pos;
+  auto size = entity->getComponent<CAnimation>().animation.getSize();
+
+  coin->addComponent<CTransform>(
+    Vec2(position.x, position.y - (size.y / 2)),
+    Vec2(0, -20),
+    0
+  );
+
+  coin->addComponent<CGravity>(0.75);
+  coin->addComponent<CAnimation>(*animation);
+  coin->addComponent<CLifespan>(50);
+}
+
 Vec2 Scene_Play::gridToMidPixel (float gridX, float gridY, std::shared_ptr<Entity> entity) {
   float gridSize = 64;
   Vec2 size = entity->getComponent<CAnimation>().animation.getSize();
@@ -184,30 +201,37 @@ void Scene_Play::doAction (const Action& action) {
   }
 }
 
+void Scene_Play::sGravity () {
+  for (auto entity: m_entities.getEntities()) {
+    if (entity->hasComponent<CGravity>()) {
+      entity->getComponent<CTransform>().vel += Vec2(0, entity->getComponent<CGravity>().value);
+    }
+  }
+}
+
 void Scene_Play::sMovement () {
   auto& input = m_player->getComponent<CInput>();
   auto& transform = m_player->getComponent<CTransform>();
-  Vec2 vel = Vec2(0, transform.vel.y) + Vec2(0, m_player->getComponent<CGravity>().value);
+
+  transform.vel.x = 0;
 
   if (input.left == true) {
-    vel.x = -m_playerConfig.SPEED;
+    transform.vel.x = -m_playerConfig.SPEED;
     transform.scale = { -1, 1 };
   }
 
   if (input.right == true) {
-    vel.x = m_playerConfig.SPEED;
+    transform.vel.x = m_playerConfig.SPEED;
     transform.scale = { 1, 1 };
   }
 
   if (input.jump == true && input.canJump == true) {
-    vel.y = std::max(-m_playerConfig.MAXSPEED, vel.y + m_playerConfig.JUMP);
+    transform.vel.y = std::max(-m_playerConfig.MAXSPEED, transform.vel.y + m_playerConfig.JUMP);
 
-    if (abs(vel.y) == m_playerConfig.MAXSPEED) {
+    if (abs(transform.vel.y) == m_playerConfig.MAXSPEED) {
       input.canJump = false;
     }
   }
-
-  transform.vel = vel;
 
   for (auto entity : m_entities.getEntities()) {
     auto& transform = entity->getComponent<CTransform>();
@@ -268,6 +292,14 @@ void Scene_Play::sCollision () {
 
           if (entity->getComponent<CAnimation>().animation.getName() == "Brick") {
             spawnExplosion(entity);
+          
+          } else if (entity->getComponent<CAnimation>().animation.getName() == "Coin") {
+            auto animation = m_game->assets().getAnimation("CoinHit");
+            
+            entity->removeComponent<CAnimation>();            
+            entity->addComponent<CAnimation>(*animation);
+
+            spawnHitCoin(entity);
           }
         }
       }
@@ -356,6 +388,7 @@ void Scene_Play::sRender () {
 void Scene_Play::update () {
   m_entities.update();
 
+  sGravity();
   sMovement();
   sAnimation();
   sCollision();
